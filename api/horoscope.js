@@ -1,9 +1,9 @@
 import fetch from 'node-fetch';
 
 export default async function handler(req, res) {
-  // CORS başlıklarını ekleyelim
-  res.setHeader("Access-Control-Allow-Origin", "*"); // Tüm domainlerden erişime izin ver
-  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS"); // GET ve OPTIONS isteklerine izin ver
+  // CORS başlıklarını ekle
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
   // OPTIONS isteği için erken dönüş yap
@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  // Query'den burç adını al
+  // URL'den burç adını al
   const { sign } = req.query;
 
   if (!sign) {
@@ -19,10 +19,14 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Dış API'ye istek at
-    const response = await fetch(
-      `https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${sign}`
-    );
+    // RapidAPI üzerinden burç yorumu çek
+    const response = await fetch(`https://sameer-kumar-aztro-v1.p.rapidapi.com/?sign=${sign}&day=today`, {
+      method: "POST",
+      headers: {
+        "X-RapidAPI-Key": "728e92e73bmshfa862e8c90e87e1p1933e8jsn199557b14125", // Senin API Key'in
+        "X-RapidAPI-Host": "sameer-kumar-aztro-v1.p.rapidapi.com"
+      }
+    });
 
     if (!response.ok) {
       throw new Error("API yanıtı başarısız");
@@ -30,8 +34,8 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    // JSON yanıtını döndür
-    res.status(200).json(data);
+    // API'den gelen veriyi JSON olarak döndür
+    res.status(200).json({ horoscope: data.description });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
