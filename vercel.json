@@ -1,8 +1,6 @@
 {
   "version": 2,
-  "functions": {
-    "api/horoscope.js": {
-      "runtime": "nodejs22.x"
-    }
-  }
+  "builds": [
+    { "src": "*.js", "use": "@vercel/node@latest" }
+  ]
 }
