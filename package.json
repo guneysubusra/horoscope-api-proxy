@@ -1,0 +1,15 @@
+{
+  "name": "horoscope-api-proxy",
+  "version": "1.0.0",
+  "description": "Burç API Proxy",
+  "main": "api/horoscope.js",
+  "scripts": {
+    "start": "node api/horoscope.js"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
