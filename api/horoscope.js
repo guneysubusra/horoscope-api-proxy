@@ -1,17 +1,14 @@
 import fetch from 'node-fetch';
 
 export default async function handler(req, res) {
-  // CORS başlıklarını ekle
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-  // OPTIONS isteği için erken dönüş yap
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
 
-  // URL'den burç adını al
   const { sign } = req.query;
 
   if (!sign) {
@@ -19,13 +16,13 @@ export default async function handler(req, res) {
   }
 
   try {
-    // RapidAPI üzerinden burç yorumu çek
     const response = await fetch(`https://sameer-kumar-aztro-v1.p.rapidapi.com/?sign=${sign}&day=today`, {
       method: "POST",
       headers: {
-        "X-RapidAPI-Key": "91a0ab4a04msh6378e4f7d063593p14d5f6jsnc1772757bc12", // Senin API Key'in
-        "X-RapidAPI-Host": "sameer-kumar-aztro-v1.p.rapidapi.com"
-      }
+        "Content-Type": "application/json",
+        "x-rapidapi-host": "sameer-kumar-aztro-v1.p.rapidapi.com",
+        "x-rapidapi-key": "91a0ab4a04msh6378e4f7d063593p14d5f6jsnc1772757bc12" // Güncel API Key
+      },
     });
 
     if (!response.ok) {
@@ -33,9 +30,7 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json();
-
-    // API'den gelen veriyi JSON olarak döndür
-    res.status(200).json({ horoscope: data.description });
+    res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
