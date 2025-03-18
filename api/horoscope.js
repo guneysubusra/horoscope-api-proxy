@@ -2,14 +2,15 @@ import fetch from 'node-fetch';
 
 export default async function handler(req, res) {
   // CORS başlıklarını ekleyelim
-  res.setHeader("Access-Control-Allow-Origin", "*"); // Tüm domainlerden erişime izin ver
-  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS"); // GET ve OPTIONS isteklerine izin ver
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-  // OPTIONS isteği için erken dönüş yap
+  // Eğer tarayıcı OPTIONS isteği yaparsa, direkt 200 dön
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
+
 
   // Query'den burç adını al
   const { sign } = req.query;
