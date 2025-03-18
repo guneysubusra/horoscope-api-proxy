@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     const response = await fetch(`https://sameer-kumar-aztro-v1.p.rapidapi.com/?sign=${sign}&day=today`, {
       method: "POST",
       headers: {
-        "X-RapidAPI-Key": "728e92e73bmshfa862e8c90e87e1p1933e8jsn199557b14125", // Senin API Key'in
+        "X-RapidAPI-Key": "91a0ab4a04msh6378e4f7d063593p14d5f6jsnc1772757bc12", // Senin API Key'in
         "X-RapidAPI-Host": "sameer-kumar-aztro-v1.p.rapidapi.com"
       }
     });
